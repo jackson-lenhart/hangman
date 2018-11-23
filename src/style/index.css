@@ -1,20 +1,39 @@
 html, body {
-	height: 100%;
-	width: 100%;
-	padding: 0;
-	margin: 0;
-	background: #FAFAFA;
-	font-family: 'Helvetica Neue', arial, sans-serif;
-	font-weight: 400;
-	color: #444;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  padding: 0;
+  background: #000066;
+  text-align: center;
+  position: relative;
+  color: white;
 }
 
-* {
-	box-sizing: border-box;
+.game-table {
+  display: table;
+  width: 100%;
+  margin-top: 5%;
 }
 
-#app {
-	height: 100%;
+.full-guess-column {
+  float: left;
+  width: 25%;
+}
+
+.viz-column {
+  float: left;
+  width: 50%;
+}
+
+.letters-column {
+  float: left;
+  width: 25%;
+}
+
+.blank {
+	padding: 7px;
+	font-size: 34px;
+}
+
+.blanks-container {
+	word-wrap: break-word;
+  text-align: center;
 }

@@ -1,10 +1,10 @@
 import { h, Component } from 'preact';
 
-import letters from './letters';
+import FullGuess from './components/full-guess';
+import Letters from './components/letters';
+import Viz from './components/viz';
 
-import style from './style';
-
-class Home extends Component {
+export default class App extends Component {
 	state = {
 		gameResult: null,
 		hangmanString: '',
@@ -19,7 +19,7 @@ class Home extends Component {
 		.then(res => res.text())
 		.then(str => {
 			this.setState({
-				hangmanString: str
+				hangmanString: 'Hello my name is Chuck Norris'
 			});
 		});
 	}
@@ -99,16 +99,28 @@ class Home extends Component {
 
 	render({}, { hangmanString, gameResult, guessed, wrongGuesses }) {
 		return (
-			<div class={style.home}>
+			<div class="container">
 				{
 					hangmanString
 					? (
 						<div>
-							<h1>Take your guess</h1>
-							<div class={style.blanksContainer}>
+              <div class="game-table">
+                <FullGuess
+                  fullGuess={this.fullGuess.bind(this)}
+                  gameResult={gameResult}
+                  handleChange={this.handleChange.bind(this)}
+                />
+                <Viz wrongGuesses={wrongGuesses} />
+  							<Letters
+                  gameResult={gameResult}
+                  guess={this.guess.bind(this)}
+                  guessed={guessed}
+                />
+              </div>
+              <div class="blanks-container">
 								{
 									hangmanString.split('').map(c => (
-										<span class={style.blank}>
+										<span class="blank">
 											{
 												gameResult === 'success' ? c : (
 													guessed.includes(c.toLowerCase()) ? c : '_'
@@ -118,48 +130,12 @@ class Home extends Component {
 									))
 								}
 							</div>
-							<div class={style.lettersContainer}>
-								{
-									letters.split('')
-									.filter(l => !guessed.includes(l))
-									.map(l => (
-										<span class={style.btnContainer}>
-											<button onClick={() => this.guess(l)} type="button">{l}</button>
-										</span>
-									))
-								}
-							</div>
-							<div>
-								{
-									!gameResult ? (
-										<div>
-											<textarea onChange={this.handleChange.bind(this)} />
-											<button onClick={this.fullGuess.bind(this)} type="button">Full Guess</button>
-										</div>
-									) : ''
-								}
-								{
-									<h2>{wrongGuesses} wrong guesses</h2>
-								}
-							</div>
 						</div>
 					) : (
 						<h1>Loading hangman string...</h1>
 					)
 				}
-				{
-					gameResult === 'success' ? (
-						<h1>Finished!</h1>
-					) : ''
-				}
-				{
-					gameResult === 'failure' ? (
-						<h1>Failed!</h1>
-					) : ''
-				}
 			</div>
 		);
 	}
 }
-
-export default Home;
